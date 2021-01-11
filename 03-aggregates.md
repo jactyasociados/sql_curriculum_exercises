@@ -45,14 +45,19 @@ psql aggregates_exercise
 Write the following queries to perform the following
 
 - Calculate the total calories for all the snacks. Call this column `total_calories`
+SELECT SUM(calories) AS total_calories FROM snacks;
 
 - Calculate the average price for all the snacks. Call this column `average_price`
+SELECT AVG(price) AS average_price FROM snacks;
 
 - Calculate the lowest price for all the snacks. Call this column `lowest_price`
+SELECT MIN(price) AS lowest_price FROM snacks;
 
 - Calculate the highest price for all the snacks. Call this column `highest_price`
+SELECT MAX(price) AS highest_price FROM snacks;
 
 - Find the count for each kind of candy in the table. Your output should look like this 
+SELECT kind, COUNT(kind) FROM snacks GROUP BY kind;
 
 ```sql
 /*
@@ -69,6 +74,7 @@ Write the following queries to perform the following
 ```
 
 - Find the count of each kind of candy where the count is greater than one. Your output should look like this:
+SELECT kind, COUNT(kind) FROM snacks GROUP BY kind HAVING COUNT(kind) > 1;
 
 ```sql
 /*
@@ -83,6 +89,7 @@ Write the following queries to perform the following
 ```
 
 - Find the average number of calories for each kind of candy and call the name of your column that contains the average `average_calories`. Order your output by the kind of candy in ascending order. Your ouput should look like this.
+SELECT kind, CAST(AVG(calories) AS INT) AS average_calories FROM snacks GROUP BY kind ORDER BY kind ASC;
 
 
 ```sql
@@ -100,6 +107,7 @@ Write the following queries to perform the following
 ```
 
 - Find the average number of calories for each kind of candy and call the name of your column that contains the average `average_calories`. You should only select a `kind` that starts with the letter `b` and has an average calories less than `250` Order your output by the kind of candy in ascending order. Your ouput should look like this.
+SELECT kind, CAST(AVG(calories) AS INT) AS average_calories FROM snacks WHERE kind LIKE 'b%' GROUP BY kind HAVING AVG(calories) < 250 ORDER BY kind ASC;
 
 
 ```sql
@@ -115,11 +123,16 @@ Write the following queries to perform the following
 Complete the following Codewars problems:
 
 [https://www.codewars.com/kata/sql-basics-simple-sum](https://www.codewars.com/kata/sql-basics-simple-sum)
+SELECT SUM(age) AS age_sum FROM people;
 
 [https://www.codewars.com/kata/sql-basics-simple-min-slash-max/train/sql](https://www.codewars.com/kata/sql-basics-simple-min-slash-max/train/sql)
+SELECT MIN(age) AS age_min, MAX(age) AS age_max FROM people;
 
 [https://www.codewars.com/kata/sql-basics-simple-distinct/train/sql](https://www.codewars.com/kata/sql-basics-simple-distinct/train/sql)
+SELECT DISTINCT age FROM people;
 
 [https://www.codewars.com/kata/sql-basics-simple-group-by/train/sql](https://www.codewars.com/kata/sql-basics-simple-group-by/train/sql)
+SELECT age, COUNT(*) as total_people FROM people GROUP BY age;
 
 [https://www.codewars.com/kata/sql-basics-simple-having/train/sql](https://www.codewars.com/kata/sql-basics-simple-having/train/sql)
+SELECT age, COUNT(*) as total_people FROM people GROUP BY age HAVING COUNT(*) >= 10;

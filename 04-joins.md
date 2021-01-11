@@ -42,6 +42,7 @@ INSERT INTO vehicles (make, model, year, price, owner_id) VALUES ('BMW', '700', 
 Write the following SQL commands to produce the necessary output
 
 - Join the two tables so that every column and record appears, regardless of if there is not an owner_id. Your output should look like this:
+SELECT * FROM owners LEFT OUTER JOIN vehicles ON (owners.id = owner_id);
 
 ```sql
 /*
@@ -67,6 +68,7 @@ Write the following SQL commands to produce the necessary output
 ```
 
 - Count the number of cars for each owner. Display the owners `first_name`, `last_name` and `count` of vehicles. The first_name should be ordered in ascending order. Your output should look like this:
+SELECT owners.id, owners.first_name, owners.last_name , COUNT(DISTINCT vehicles.id) FROM owners LEFT JOIN vehicles ON owners.id = vehicles.owner_id GROUP BY owners.id, owners.first_name, owners.last_name ORDER BY first_name ASC;
 
 ```sql
 /*
@@ -83,6 +85,7 @@ Write the following SQL commands to produce the necessary output
 ```
 
 - Count the number of cars for each owner and display the average price for each of the cars as integers. Display the owners `first_name`, `last_name`, average price and count of vehicles. The `first_name` should be ordered in descending order. Only display results with more than one vehicle and an average price greater than 10000. Your output should look like this:
+SELECT owners.id, owners.first_name, owners.last_name , CAST(AVG(vehicles.price) AS INT) AS average_price, COUNT(DISTINCT vehicles.id) AS vehicle_count FROM owners LEFT JOIN vehicles ON owners.id = vehicles.owner_id GROUP BY owners.id, owners.first_name, owners.last_name HAVING AVG(vehicles.price) > 10000 AND COUNT(DISTINCT vehicles.id) > 1 ORDER BY first_name DESC;
 
 ```sql
 /*
@@ -99,9 +102,13 @@ Write the following SQL commands to produce the necessary output
 Complete the following Codewars problems:
 
 [https://www.codewars.com/kata/sql-basics-simple-join/train/sql](https://www.codewars.com/kata/sql-basics-simple-join/train/sql)
+SELECT products.id, products.name, products.isbn, products.company_id, products.price, companies.name AS company_name FROM products JOIN companies ON products.company_id = companies.id;
+
 
 [https://www.codewars.com/kata/sql-basics-simple-join-with-count](https://www.codewars.com/kata/sql-basics-simple-join-with-count)
+SELECT people.*, count(toys) AS toy_count FROM people JOIN toys ON toys.people_id = people.id GROUP BY people.id;
 
 ### Bonus
 
 [https://www.codewars.com/kata/sql-bug-fixing-fix-the-join/train/sql](https://www.codewars.com/kata/sql-bug-fixing-fix-the-join/train/sql)
+SELECT DISTINCT j.job_title, ROUND(AVG(j.salary),2)::FLOAT as average_salary, COUNT(p.id) as total_people, ROUND(SUM(j.salary),2)::FLOAT as total_salary FROM people AS p JOIN job AS j ON p.id = j.people_id GROUP BY j.job_title ORDER BY average_salary DESC;
